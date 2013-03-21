@@ -1,0 +1,2 @@
+{"ts":1363879108954,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":false,"ts":1363879963664,"patch":[[{"diffs":[[1,"<div data-bind=\"ifnot: id\">\n    <%- partial('partials/invitation-creating') %>\n</div>\n\n<div data-bind=\"if: id\">\n    <%- partial('partials/invitation-done') %>\n</div>\n\n<script>\n    ko.applyBindings(new invitationViewModel());\n    $(\"textarea\").focus();\n</script>"]],"start1":0,"start2":0,"length1":0,"length2":261}]],"length":261,"saved":false}

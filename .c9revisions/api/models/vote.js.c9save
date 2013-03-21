@@ -1,0 +1,2 @@
+{"ts":1363867530508,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":false,"ts":1363867642521,"patch":[[{"diffs":[[1,"// \"vote\" class to ensure the data matches the intended schema\n\nfunction vote(data) {\n    this.name = String(data.name) || \"Anonymous\";\n    this.choices = (data.choices || []).map(Number);\n}\n\nmodule.exports = vote;"]],"start1":0,"start2":0,"length1":0,"length2":214}]],"length":214,"saved":false}
