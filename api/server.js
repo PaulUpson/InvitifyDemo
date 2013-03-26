@@ -1,9 +1,8 @@
-var express = require('express'),
-    app = module.exports = express.createServer(),
-    ejsMIddleware = require('ejs-middleware'),
-    db = require('./db'),
-    invitation = require('./models/invitation'),
-    vote = require('./models/vote');
+var express = require('express')
+  , app = module.exports = express.createServer()
+  , db = require('./db')
+  , invitation = require('./models/invitation')
+  , vote = require('./models/vote');
     
 app.use(express.bodyParser());
 

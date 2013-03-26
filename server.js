@@ -1,20 +1,27 @@
-var express = require('express'),
-    app = express.createServer().listen(process.env.PORT, process.env.IP),
-    apiServer = require('./api/server'),
-    ejsMIddleware = require('ejs-middleware');
-    
-app.use('/api', apiServer); // Mount the HTTP API on the URL space /api
+var express = require('express')
+  , http = require("http")
+  , app = express()
+  , apiServer = require('./api/server')
+  , engine = require('ejs-locals');
+
+//app.use('/api', apiServer); // Mount the HTTP API on the URL space /api
 
 app.use(function (req, res, next) {
     setTimeout(next, 4000);
 });
 
-app.use(ejsMIddleware(__dirname + '/static', 'html', app)); // Serve /html files via EJS renderer
+// use ejs-locals for all ejs templates:
+app.engine('ejs', engine);
+app.set('views', __dirname + '/static');
+app.set('view engine', 'ejs'); // so you can render('index')
+//app.use(ejsMIddleware(__dirname + '/static', 'html', app)); // Serve /html files via EJS renderer
 
 app.use(express.static(__dirname + '/static')); // For other requests, just serve /static
 
+var server = http.createServer(app);
+
 // Enable socket.io, making it part of the /api/* space
-var io = require('socket.io').listen(app);
+var io = require('socket.io').listen(server);
 io.configure(function() {
     // Configure socket.io
     io.set('resource', '/api/socket.io');
@@ -34,3 +41,5 @@ io.configure(function() {
         });
     });
 });
+
+server.listen(process.env.PORT, process.env.IP);
