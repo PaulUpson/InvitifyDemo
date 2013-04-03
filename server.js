@@ -2,19 +2,20 @@ var express = require('express')
   , http = require("http")
   , app = express()
   , apiServer = require('./api/server')
-  , engine = require('ejs-locals');
+  , engine = require('ejs-locals')
+  , ejsMiddleware = require('ejs-middleware');
 
-//app.use('/api', apiServer); // Mount the HTTP API on the URL space /api
+app.use('/api', apiServer); // Mount the HTTP API on the URL space /api
 
 app.use(function (req, res, next) {
     setTimeout(next, 4000);
 });
 
 // use ejs-locals for all ejs templates:
-app.engine('ejs', engine);
+app.engine('html', engine);
 app.set('views', __dirname + '/static');
-app.set('view engine', 'ejs'); // so you can render('index')
-//app.use(ejsMIddleware(__dirname + '/static', 'html', app)); // Serve /html files via EJS renderer
+app.set('view engine', 'html'); // so you can render('index')
+app.use(ejsMiddleware(__dirname + '/static', 'html')); // Serve /html files via EJS renderer
 
 app.use(express.static(__dirname + '/static')); // For other requests, just serve /static
 
@@ -42,4 +43,7 @@ io.configure(function() {
     });
 });
 
-server.listen(process.env.PORT, process.env.IP);
+//server.listen(process.env.PORT, process.env.IP);
+server.listen(3000);
+
+console.log('Express server running on port 3000');

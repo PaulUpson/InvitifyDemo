@@ -1,18 +1,21 @@
 var express = require('express')
-  , app = module.exports = express.createServer()
   , db = require('./db')
   , invitation = require('./models/invitation')
   , vote = require('./models/vote');
+
+var app = module.exports = express();
     
 app.use(express.bodyParser());
 
 app.get('/invitations/:id', function(req, res) {
+    console.log('Get request for /invitiations/' + req.params.id);
     var result = db.load(req.params.id);
     result ? res.send(result)
            : res.send(404)
     });
 
 app.post('/invitations', function(req, res) {
+    console.log('Post request for /invitations - ' + req.body)
     var newInvitation = new invitation(req.body);
     db.save(newInvitation);
     
@@ -21,13 +24,14 @@ app.post('/invitations', function(req, res) {
 });
 
 app.post('/invitations/:id/votes', function(req, res) {
+    console.log('Post request for /invitations/' + req.params.id + '/votes - ' + req.body); 
     var invitation = db.load(req.params.id);
     if(invitation) {
         invitation.votes.push(new vote(req.body));
         db.save(invitation);
         res.send(200);
         
-        //app.emit('invitationUpdate', invitation);
+        app.emit('invitationUpdate', invitation);
     } else {
         res.send(404);
     }
